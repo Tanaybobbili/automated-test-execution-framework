@@ -1,4 +1,6 @@
 package com.infosys.automated_test_execution_framework.utils;
 
-public class Status {
+public enum Status {
+    PASS,
+    FAIL
 }

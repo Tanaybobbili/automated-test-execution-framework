@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Analytics</title>
 </head>
 <body>
-$END$
+
+<h2>Execution Analytics</h2>
+
+<p>Total Executions: <b th:text="${total}"></b></p>
+<p>Passed: <b style="color:green" th:text="${pass}"></b></p>
+<p>Failed: <b style="color:red" th:text="${fail}"></b></p>
+
+<a href="/ui/dashboard">⬅ Back to Dashboard</a>
+
 </body>
 </html>
