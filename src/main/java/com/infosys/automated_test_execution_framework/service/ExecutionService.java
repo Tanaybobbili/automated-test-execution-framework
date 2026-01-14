@@ -36,7 +36,12 @@ public class ExecutionService {
                     if ("UI".equalsIgnoreCase(tc.getType())) {
                         result = uiRunner.run(tc.getTarget());
                     } else if ("API".equalsIgnoreCase(tc.getType())) {
-                        result = apiRunner.run(tc.getMethod(), tc.getTarget());
+                        result = apiRunner.run(
+                                tc.getMethod(),
+                                tc.getTarget(),
+                                tc.getRequestBody()
+                        );
+
                     } else {
                         System.out.println("Unknown test type: " + tc.getType());
                         result = false;

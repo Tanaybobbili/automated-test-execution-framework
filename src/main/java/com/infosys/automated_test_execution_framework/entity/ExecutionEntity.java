@@ -19,4 +19,7 @@ public class ExecutionEntity {
     private LocalDateTime startedAt;
 
     private LocalDateTime finishedAt;
+
+    private String status; // RUNNING / COMPLETED
+
 }

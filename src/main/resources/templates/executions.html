@@ -29,8 +29,10 @@
                         <td th:text="${log.id}"></td>
                         <td th:text="${log.testCaseId}"></td>
                         <td>
-                            <span th:if="${log.status == 'PASS'}" class="badge bg-success">PASS</span>
-                            <span th:if="${log.status == 'FAIL'}" class="badge bg-danger">FAIL</span>
+                            <span th:if="${log.status == 'PASS'}"
+                                  class="badge bg-success">PASS</span>
+                            <span th:if="${log.status == 'FAIL'}"
+                                  class="badge bg-danger">FAIL</span>
                         </td>
                         <td th:text="${log.message}"></td>
                         <td th:text="${log.executedAt}"></td>

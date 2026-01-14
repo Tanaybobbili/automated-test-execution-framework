@@ -1,9 +1,6 @@
 package com.infosys.automated_test_execution_framework.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -21,4 +18,7 @@ public class TestCaseEntity {
     private String target;
 
     private String method;
+
+    @Column(length = 5000)
+    private String requestBody;
 }
