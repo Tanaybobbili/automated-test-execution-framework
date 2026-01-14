@@ -13,6 +13,7 @@ public class UiTestRunner {
         try {
             driver = new ChromeDriver();
             driver.get(url);
+            Thread.sleep(3000);
             return driver.getTitle() != null;
         } catch (Exception e) {
             return false;

@@ -28,23 +28,32 @@ public class ExecutionService {
 
         for (Long id : testCaseIds) {
             executorService.submit(() -> {
+                try {
+                    System.out.println("Executing Test ID: " + id);
+                    TestCaseEntity tc = testRepo.findById(id).orElseThrow();
+                    boolean result;
 
-                TestCaseEntity tc = testRepo.findById(id).orElseThrow();
-                boolean result;
+                    if ("UI".equalsIgnoreCase(tc.getType())) {
+                        result = uiRunner.run(tc.getTarget());
+                    } else if ("API".equalsIgnoreCase(tc.getType())) {
+                        result = apiRunner.run(tc.getMethod(), tc.getTarget());
+                    } else {
+                        System.out.println("Unknown test type: " + tc.getType());
+                        result = false;
+                    }
 
-                if ("UI".equalsIgnoreCase(tc.getType())) {
-                    result = uiRunner.run(tc.getTarget());
-                } else {
-                    result = apiRunner.run(tc.getMethod(), tc.getTarget());
+
+                    ExecutionLogEntity log = new ExecutionLogEntity();
+                    log.setTestCaseId(tc.getId());
+                    log.setStatus(result ? Status.PASS.name() : Status.FAIL.name());
+                    log.setMessage(result ? "Execution Successful" : "Execution Failed");
+                    log.setExecutedAt(TimeUtil.now());
+
+                    logRepo.save(log);
+                    System.out.println("Finished Test ID: " + id);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                ExecutionLogEntity log = new ExecutionLogEntity();
-                log.setTestCaseId(tc.getId());
-                log.setStatus(result ? Status.PASS.name() : Status.FAIL.name());
-                log.setMessage(result ? "Execution Successful" : "Execution Failed");
-                log.setExecutedAt(TimeUtil.now());
-
-                logRepo.save(log);
             });
         }
     }
