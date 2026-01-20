@@ -9,13 +9,31 @@
 
 <div class="container py-4">
 
-    <div class="card bg-secondary">
+    <div class="card bg-secondary shadow-lg">
         <div class="card-body">
-            <h3 class="mb-3">Execution Results</h3>
 
+            <!-- HEADER -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h3 class="mb-0">Execution Results</h3>
+                    <small class="text-warning"
+                           th:if="${param.executionId != null}">
+                        Execution ID: <span th:text="${param.executionId}"></span>
+                    </small>
+                </div>
+
+                <!-- ANALYTICS BUTTON -->
+                <a th:if="${param.executionId != null}"
+                   class="btn btn-outline-warning"
+                   th:href="@{/ui/analytics(executionId=${param.executionId})}">
+                    📊 View Analytics
+                </a>
+            </div>
+
+            <!-- TABLE -->
             <div class="table-responsive">
-                <table class="table table-dark table-hover">
-                    <thead>
+                <table class="table table-dark table-hover align-middle">
+                    <thead class="table-secondary text-dark">
                     <tr>
                         <th>Log ID</th>
                         <th>Test Case ID</th>
@@ -24,24 +42,37 @@
                         <th>Executed At</th>
                     </tr>
                     </thead>
+
                     <tbody>
                     <tr th:each="log : ${logs}">
                         <td th:text="${log.id}"></td>
                         <td th:text="${log.testCaseId}"></td>
                         <td>
                             <span th:if="${log.status == 'PASS'}"
-                                  class="badge bg-success">PASS</span>
+                                  class="badge bg-success px-3">PASS</span>
                             <span th:if="${log.status == 'FAIL'}"
-                                  class="badge bg-danger">FAIL</span>
+                                  class="badge bg-danger px-3">FAIL</span>
                         </td>
                         <td th:text="${log.message}"></td>
                         <td th:text="${log.executedAt}"></td>
+                    </tr>
+
+                    <!-- EMPTY STATE -->
+                    <tr th:if="${#lists.isEmpty(logs)}">
+                        <td colspan="5" class="text-center text-white py-4">
+                            No execution logs found.
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
-            <a class="btn btn-outline-light mt-3" href="/ui/dashboard">⬅ Back</a>
+            <!-- FOOTER ACTIONS -->
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-outline-light" href="/ui/dashboard">⬅ Back to Dashboard</a>
+                <a class="btn btn-outline-info" href="/ui/executions">View All Executions</a>
+            </div>
+
         </div>
     </div>
 

@@ -1,5 +1,6 @@
 package com.infosys.automated_test_execution_framework.controller.api;
 
+import com.infosys.automated_test_execution_framework.entity.ExecutionEntity;
 import com.infosys.automated_test_execution_framework.service.ExecutionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,8 @@ public class ExecutionApiController {
     private final ExecutionService service;
 
     @PostMapping("/run")
-    public void runTests(@RequestBody List<Long> testCaseIds) {
-        service.execute(testCaseIds);
+    public ExecutionEntity runTests(@RequestBody List<Long> testCaseIds) {
+        return service.execute(testCaseIds);
     }
+
 }

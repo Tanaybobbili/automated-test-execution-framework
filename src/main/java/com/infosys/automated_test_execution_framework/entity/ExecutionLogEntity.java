@@ -13,6 +13,8 @@ public class ExecutionLogEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long executionId;
+
     private Long testCaseId;
 
     private String status;

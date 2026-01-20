@@ -1,5 +1,6 @@
 package com.infosys.automated_test_execution_framework.controller.ui;
 
+import com.infosys.automated_test_execution_framework.entity.ExecutionEntity;
 import com.infosys.automated_test_execution_framework.repository.ExecutionLogRepository;
 import com.infosys.automated_test_execution_framework.service.ExecutionService;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +20,24 @@ public class ExecutionViewController {
     private final ExecutionService executionService;
 
     @GetMapping("/ui/executions")
-    public String viewExecutions(Model model) {
-        model.addAttribute("logs", logRepository.findAll());
+    public String viewExecutions(
+            @RequestParam(required = false) Long executionId,
+            Model model
+    ) {
+        if (executionId != null) {
+            model.addAttribute("logs", logRepository.findAllByExecutionId(executionId));
+        } else {
+            model.addAttribute("logs", logRepository.findAll());
+        }
         return "executions";
     }
 
+
     @PostMapping("/ui/execute")
     public String executeFromUI(@RequestParam("testIds") List<Long> ids) {
-        executionService.execute(ids);
-        return "redirect:/ui/executions";
+        ExecutionEntity execution = executionService.execute(ids);
+        return "redirect:/ui/executions?executionId=" + execution.getId();
     }
+
 
 }
