@@ -5,6 +5,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <script>
+        function fetchExisting() {
+            const url = document.querySelector('[name="target"]').value;
+            const bodyField = document.getElementById("requestBody");
+
+            if (!url) {
+                alert("Please enter Target URL first");
+                return;
+            }
+
+            fetch(`/api/helper/fetch?url=${encodeURIComponent(url)}`)
+                .then(res => res.text())
+                .then(data => {
+                    bodyField.value = data;
+                    bodyField.disabled = false;
+                })
+                .catch(() => alert("Failed to fetch resource"));
+        }
         function toggleApiFields() {
             const type = document.getElementById("typeSelect").value;
             const method = document.getElementById("methodSelect").value;
@@ -82,16 +99,26 @@
                     <div class="col-md-12">
                         <label class="form-label">
                             Request Body (JSON)
-                            <small class="text-warning">(Only for POST / PUT)</small>
+                            <small class="text-warning">(POST / PUT)</small>
                         </label>
+
+                        <div class="d-flex mb-2">
+                            <button type="button"
+                                    class="btn btn-outline-info btn-sm me-2"
+                                    onclick="fetchExisting()">
+                                Fetch Existing
+                            </button>
+                        </div>
+
                         <textarea class="form-control"
                                   id="requestBody"
                                   th:field="*{requestBody}"
-                                  rows="4"
+                                  rows="6"
                                   placeholder='{"key":"value"}'
                                   disabled></textarea>
                     </div>
                 </div>
+
 
                 <button class="btn btn-primary mt-3">Create Test</button>
             </form>
