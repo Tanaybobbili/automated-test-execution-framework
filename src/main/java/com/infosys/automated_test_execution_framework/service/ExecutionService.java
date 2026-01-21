@@ -42,6 +42,9 @@ public class ExecutionService {
 
         for (Long id : testCaseIds) {
             executorService.submit(() -> {
+
+                long startTime = System.currentTimeMillis();
+
                 try {
                     TestCaseEntity tc = testRepo.findById(id).orElseThrow();
                     boolean result;
@@ -56,12 +59,15 @@ public class ExecutionService {
                         );
                     }
 
+                    long endTime = System.currentTimeMillis();
+
                     ExecutionLogEntity log = new ExecutionLogEntity();
                     log.setExecutionId(executionId); // ✅ SAFE
                     log.setTestCaseId(tc.getId());
                     log.setStatus(result ? Status.PASS.name() : Status.FAIL.name());
                     log.setMessage(result ? "Execution Successful" : "Execution Failed");
                     log.setExecutedAt(TimeUtil.now());
+                    log.setTimeTakenMs(endTime - startTime);
 
                     logRepo.save(log);
 

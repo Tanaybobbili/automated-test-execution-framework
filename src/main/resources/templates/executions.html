@@ -40,6 +40,7 @@
                         <th>Status</th>
                         <th>Message</th>
                         <th>Executed At</th>
+                        <th>Time Taken</th>
                     </tr>
                     </thead>
 
@@ -55,11 +56,15 @@
                         </td>
                         <td th:text="${log.message}"></td>
                         <td th:text="${log.executedAt}"></td>
+                        <td>
+                            <span th:text="${log.timeTakenMs}"></span> ms
+                        </td>
+
                     </tr>
 
                     <!-- EMPTY STATE -->
                     <tr th:if="${#lists.isEmpty(logs)}">
-                        <td colspan="5" class="text-center text-white py-4">
+                        <td colspan="6" class="text-center text-white py-4">
                             No execution logs found.
                         </td>
                     </tr>

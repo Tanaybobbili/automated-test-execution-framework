@@ -23,4 +23,7 @@ public class ExecutionLogEntity {
     private String message;
 
     private LocalDateTime executedAt;
+
+    private Long timeTakenMs;
+
 }
